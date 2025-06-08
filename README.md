@@ -116,7 +116,7 @@ fun login(@RequestBody request: AuthRequest): ResponseEntity<AuthResponse> {
 
 data class AuthRequest(val email: String, val password: String)
 data class AuthResponse(val token: String, val user: User)
-
+```
 
 💠 Add Your Own Features
 To add a new screen:
