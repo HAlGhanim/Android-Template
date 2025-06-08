@@ -122,16 +122,16 @@ data class AuthResponse(val token: String, val user: User)
 To add a new screen:
 Create ScreenNameScreen.kt under ui/screens
 
-Add it to Screen.kt class
+- Add it to Screen.kt class
 
-Add a composable() entry in AppNavigation.kt
+- Add a composable() entry in AppNavigation.kt
 
 To add a new API:
-Create YourApiService.kt in network/
+- Create YourApiService.kt in network/
 
-Add it in AppInitializer.kt
+- Add it in AppInitializer.kt
 
-Inject it into your ViewModel
+- Inject it into your ViewModel
 
 ## 🤝 Contributing
 Contributions are welcome! Feel free to open issues or submit PRs.
