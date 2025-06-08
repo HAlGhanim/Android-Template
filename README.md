@@ -34,13 +34,43 @@ This template is designed to be the starting point for full-scale apps with clea
 ```
 androidtemplate/
 │
-├── data/ # DTOs, requests, and responses
-├── network/ # Retrofit, interceptors, api services
-├── navigation/ # Screens and NavGraph
-├── ui/ # Composables and screens
-├── utils/ # TokenManager, AppInitializer
-├── viewmodels/ # ViewModel + BaseViewModel
-└── MainActivity.kt # App entry point
+├── data/
+│ ├── dtos/
+│ │ └── User.kt # Data class representing a user
+│ ├── requests/
+│ │ └── RegisterRequest.kt # Request payload for user registration
+│ └── responses/
+│ └── TokenResponse.kt # Response payload for JWT token
+│
+├── navigation/
+│ ├── AppNavigation.kt # Main NavHost and navigation graph
+│ └── Screen.kt # Sealed class for all navigation routes
+│
+├── network/
+│ ├── AuthApiService.kt # Retrofit interface for auth-related API calls
+│ ├── RetrofitHelper.kt # Singleton for Retrofit instance setup
+│ └── TokenInterceptor.kt # Interceptor to add JWT token to requests
+│
+├── ui/
+│ ├── composables/
+│ │ └── LoadingIndicator.kt # Reusable loading indicator composable
+│ ├── screens/
+│ │ ├── HomeScreen.kt # Home screen shown after login
+│ │ └── LoginScreen.kt # Login form screen
+│ └── theme/
+│ ├── Color.kt # Color definitions
+│ ├── Theme.kt # AppTheme wrapper
+│ └── Type.kt # Typography settings
+│
+├── utils/
+│ ├── AppInitializer.kt # Provides token manager and services manually
+│ └── TokenManager.kt # Manages saving/retrieving JWT tokens
+│
+├── viewmodels/
+│ ├── AuthViewModel.kt # ViewModel handling login and session state
+│ └── BaseViewModel.kt # Base class for shared loading/error state
+│
+└── MainActivity.kt # Entry point for Compose app
 ```
 ---
 
