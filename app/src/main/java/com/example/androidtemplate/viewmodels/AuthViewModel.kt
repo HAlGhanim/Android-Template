@@ -3,7 +3,6 @@ package com.example.androidtemplate.viewmodels
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidtemplate.data.dtos.User
 import com.example.androidtemplate.data.responses.TokenResponse
@@ -14,13 +13,7 @@ import kotlinx.coroutines.launch
 class AuthViewModel(
     private val apiService: AuthApiService,
     private val tokenManager: TokenManager
-) : ViewModel() {
-
-    private val _errorMessage = mutableStateOf<String?>(null)
-    val errorMessage: State<String?> get() = _errorMessage
-
-    private val _isLoading = mutableStateOf(false)
-    val isLoading: State<Boolean> get() = _isLoading
+) : BaseViewModel() {
 
     private val _token = mutableStateOf<TokenResponse?>(null)
     val token: State<TokenResponse?> get() = _token
@@ -28,51 +21,73 @@ class AuthViewModel(
     private val _user = mutableStateOf<User?>(null)
     val user: State<User?> get() = _user
 
-    fun resetState() {
-        _token.value = null
-        _user.value = null
-        _errorMessage.value = null
-        _isLoading.value = false
+    init {
+        loadStoredToken()
     }
 
+    private fun loadStoredToken() {
+        val savedToken = tokenManager.getToken()
+        _token.value = savedToken?.let { TokenResponse(it) }
 
-    fun login(username: String, password: String) {
+        if (savedToken != null) {
+            fetchCurrentUser()
+        }
+    }
+
+    private fun fetchCurrentUser() {
         viewModelScope.launch {
-            _isLoading.value = true
+            setLoading(true)
             try {
-                val loginResponse = apiService.login(User(email = username, password = password))
-                if (!loginResponse.isSuccessful) {
-                    _errorMessage.value = "Login failed: ${loginResponse.message()}"
-                    return@launch
-                }
-
-                val authResponse = loginResponse.body()
-                val rawToken = authResponse?.token
-                if (rawToken.isNullOrBlank()) {
-                    _errorMessage.value = "Received empty token"
-                    return@launch
-                }
-
-                tokenManager.saveToken(rawToken)
-                _token.value = TokenResponse(rawToken)
-
-                val userResponse = apiService.getCurrentUser()
-                if (userResponse.isSuccessful) {
-                    _user.value = userResponse.body()
+                val response = apiService.getCurrentUser()
+                if (response.isSuccessful) {
+                    _user.value = response.body()
                 } else {
-                    _errorMessage.value = "Failed to fetch user: ${userResponse.message()}"
+                    setError("Session invalid: ${response.message()}")
+                    tokenManager.clearToken()
+                    _token.value = null
+                }
+            } catch (e: Exception) {
+                setError("Fetch user failed: ${e.message}")
+            } finally {
+                setLoading(false)
+            }
+        }
+    }
+
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            setLoading(true)
+            try {
+                val response = apiService.login(User(email, password))
+                if (!response.isSuccessful) {
+                    setError("Login failed: ${response.message()}")
+                    return@launch
                 }
 
+                val token = response.body()?.token
+                if (token.isNullOrBlank()) {
+                    setError("Empty token")
+                    return@launch
+                }
+
+                tokenManager.saveToken(token)
+                _token.value = TokenResponse(token)
+
+                fetchCurrentUser()
             } catch (e: Exception) {
-                _errorMessage.value = "Unexpected error: ${e.message}"
+                setError("Login error: ${e.message}")
             } finally {
-                _isLoading.value = false
+                setLoading(false)
             }
         }
     }
 
     fun logout() {
         tokenManager.clearToken()
-        resetState()
+        _token.value = null
+        _user.value = null
+        clearError()
+        setLoading(false)
     }
 }
+
