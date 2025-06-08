@@ -69,20 +69,54 @@ Select your emulator or device
 
 Press ▶️ "Run"
 
-🔐 Authentication Setup
+## 🔐 Authentication Setup
+
 This project includes:
 
-TokenManager for saving/retrieving JWTs
-
-AuthViewModel that handles login/logout
-
-Automatic token injection via TokenInterceptor
+- `TokenManager` for saving/retrieving JWTs
+- `AuthViewModel` that handles login/logout
+- Automatic token injection via `TokenInterceptor`
 
 On successful login:
 
-Token is saved via SharedPreferences
+- Token is saved via `SharedPreferences`
+- User is auto-logged in on next app launch
 
-User is auto-logged in on next app launch
+> ⚠️ **Backend Requirements**: Your backend must include the following endpoints for this template to work:
+
+```kotlin
+// GET /users/me
+@GetMapping("/users/me")
+@PreAuthorize("isAuthenticated()")
+fun getCurrentUser(): ResponseEntity<User> {
+    val email = SecurityContextHolder.getContext().authentication.name
+    val user = userRepository.findByEmail(email)
+        ?: throw UsernameNotFoundException("User not found with email: $email")
+    return ResponseEntity.ok(user)
+}
+
+// POST /login
+@PostMapping("/login")
+fun login(@RequestBody request: AuthRequest): ResponseEntity<AuthResponse> {
+    val authToken = UsernamePasswordAuthenticationToken(request.email, request.password)
+    val authentication = authenticationManager.authenticate(authToken)
+
+    if (authentication.isAuthenticated) {
+        val user = userRepository.findByEmail(request.email)
+            ?: throw UsernameNotFoundException("User not found")
+
+        val token = jwtService.generateToken(request.email, user.role.name)
+        return ResponseEntity.ok(AuthResponse(token = token, user = user))
+    } else {
+        throw UsernameNotFoundException("Invalid credentials")
+    }
+}
+
+// DTOs
+
+data class AuthRequest(val email: String, val password: String)
+data class AuthResponse(val token: String, val user: User)
+
 
 💠 Add Your Own Features
 To add a new screen:
