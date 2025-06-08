@@ -31,7 +31,7 @@ This template is designed to be the starting point for full-scale apps with clea
 ---
 
 ## 📁 Project Structure
-
+```
 androidtemplate/
 │
 ├── data/ # DTOs, requests, and responses
@@ -41,7 +41,7 @@ androidtemplate/
 ├── utils/ # TokenManager, AppInitializer
 ├── viewmodels/ # ViewModel + BaseViewModel
 └── MainActivity.kt # App entry point
-
+```
 ---
 
 ## 🚀 Getting Started
