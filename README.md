@@ -118,7 +118,7 @@ data class AuthRequest(val email: String, val password: String)
 data class AuthResponse(val token: String, val user: User)
 ```
 
-💠 Add Your Own Features
+## 💠 Add Your Own Features
 To add a new screen:
 Create ScreenNameScreen.kt under ui/screens
 
@@ -133,8 +133,8 @@ Add it in AppInitializer.kt
 
 Inject it into your ViewModel
 
-🤝 Contributing
+## 🤝 Contributing
 Contributions are welcome! Feel free to open issues or submit PRs.
 
-🧠 Maintained by
+## 🧠 Maintained by
 Humoud – @HAlGhanim
