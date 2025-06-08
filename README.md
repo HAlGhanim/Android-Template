@@ -45,18 +45,22 @@ androidtemplate/
 ---
 
 ## 🚀 Getting Started
+### 1. Fork this repository
 
-### 1. Clone the repository
+Go to the GitHub repository and click Fork.
+
+### 2. Create your repo then Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/AndroidTemplate.git
-cd AndroidTemplate
+git clone https://github.com/YOUR_USERNAME/YourAppName.git
+cd YourAppName
 ```
 2. Rename your project
 Search and replace all instances of:
-
+```
 androidtemplate → yourprojectname
 com.example.androidtemplate → com.yourcompany.yourapp
+```
 
 3. Run the app
 Open in Android Studio
