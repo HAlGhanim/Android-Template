@@ -49,7 +49,7 @@ androidtemplate/
 
 Go to the GitHub repository and click Fork.
 
-### 2. Create your repo then Clone the repository
+### 2. Choose this template when creating your repo then Clone the repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/YourAppName.git
