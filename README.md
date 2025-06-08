@@ -1,4 +1,4 @@
-# AndroidTemplate
+# Android Template
 
 A modern, scalable Android project template built with **Jetpack Compose**, **ViewModel**, **Retrofit**, and **SharedPreferences** authentication.
 
