@@ -55,14 +55,14 @@ Go to the GitHub repository and click Fork.
 git clone https://github.com/YOUR_USERNAME/YourAppName.git
 cd YourAppName
 ```
-2. Rename your project
+### 3. Rename your project
 Search and replace all instances of:
 ```
 androidtemplate → yourprojectname
 com.example.androidtemplate → com.yourcompany.yourapp
 ```
 
-3. Run the app
+### 4. Run the app
 Open in Android Studio
 
 Select your emulator or device
