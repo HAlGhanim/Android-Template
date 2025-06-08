@@ -42,10 +42,6 @@ androidtemplate/
 ├── viewmodels/ # ViewModel + BaseViewModel
 └── MainActivity.kt # App entry point
 
-yaml
-Copy
-Edit
-
 ---
 
 ## 🚀 Getting Started
