@@ -86,11 +86,26 @@ git clone https://github.com/YOUR_USERNAME/YourAppName.git
 cd YourAppName
 ```
 ### 3. Rename your project
-Search and replace all instances of:
+
+Use the provided script to rename the project
+```bash
+chmod +x rename-template.sh
+./rename-template.sh yourprojectname com.yourcompany.yourprojectname
 ```
-androidtemplate → yourprojectname
+Example:
+```bash
+./rename-template.sh capstone com.yourcompany.capstone
+```
+
+This will automatically replace:
+```bash
+androidtemplate             → yourprojectname
+AndroidTemplate             → YourProjectName
 com.example.androidtemplate → com.yourcompany.yourapp
 ```
+It will work even if it displays red words or unresolved references.
+
+After running the script, make sure to sync Gradle and then invalidate cache for it to fully apply.
 
 ### 4. Run the app
 Open in Android Studio
