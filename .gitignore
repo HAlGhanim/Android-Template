@@ -1,15 +1,36 @@
+# === Android Studio / IntelliJ ===
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
 local.properties
+.DS_Store
+
+# === Build / Gradle ===
+.gradle/
+build/
+**/build/
+**/.gradle/
+.cxx/
+captures/
+externalNativeBuild/
+
+# === Output files ===
+*.apk
+*.ap_
+*.class
+*.jar
+*.war
+*.ear
+
+# === Logs / Temp ===
+*.log
+*.swp
+*~
+Thumbs.db
+
+# === Lock files / Cache ===
+*.lock
+caches/
+
+# === VS Code ===
+.vscode/
+v
