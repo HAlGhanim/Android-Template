@@ -28,11 +28,15 @@ find . -type f \( -name "*.kt" -o -name "*.xml" -o -name "*.gradle.kts" -o -name
 find . -type f \( -name "*.kt" -o -name "*.xml" -o -name "*.gradle.kts" -o -name "*.gradle" -o -name "*.md" \) \
   -exec sed -i "s/AndroidTemplate/$NEW_PROJECT_PASCAL/g" {} +
 
-# 3. Replace package: com.example.androidtemplate → com.example.mybank
+# 3. Replace specific package: com.example.androidtemplate → com.example.mybank
 find . -type f \( -name "*.kt" -o -name "*.xml" -o -name "*.gradle.kts" -o -name "*.gradle" -o -name "*.md" \) \
   -exec sed -i "s/com\.example\.androidtemplate/$NEW_PACKAGE_NAME/g" {} +
 
-# 4. Move source files
+# 4. 🆕 Replace any lingering com.example.* → new package
+find . -type f \( -name "*.kt" -o -name "*.xml" -o -name "*.gradle.kts" -o -name "*.gradle" -o -name "*.md" \) \
+  -exec sed -i "s/com\.example\.[a-zA-Z0-9_]\+/$NEW_PACKAGE_NAME/g" {} +
+
+# 5. Move main source files
 echo "📁 Moving source files to: $PACKAGE_PATH"
 SRC_MAIN="./app/src/main/java"
 OLD_PATH="$SRC_MAIN/com/example/androidtemplate"
@@ -43,7 +47,7 @@ if [ -d "$OLD_PATH" ]; then
   rm -rf "$SRC_MAIN/com/example/androidtemplate"
 fi
 
-# 5. Move test files
+# 6. Move test source files
 for TEST_TYPE in androidTest test; do
   SRC="./app/src/$TEST_TYPE/java"
   OLD="$SRC/com/example/androidtemplate"
