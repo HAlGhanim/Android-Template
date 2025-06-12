@@ -107,7 +107,9 @@ It will work even if it displays red words or unresolved references.
 
 After running the script, make sure to sync Gradle and then invalidate cache for it to fully apply.
 
-### 4. Run the app
+### 4a. Remove admin role from User DTO and Login screen if no roles are implemented. (optional)
+
+### 4b. Run the app
 Open in Android Studio
 
 Select your emulator or device
@@ -150,7 +152,7 @@ fun login(@RequestBody request: AuthRequest): ResponseEntity<AuthResponse> {
         val user = userRepository.findByEmail(request.email)
             ?: throw UsernameNotFoundException("User not found")
 
-        val token = jwtService.generateToken(request.email, user.role.name)
+        val token = jwtService.generateToken(request.email, user.role.name) // remove role if not needed in your controller and jwtservice
         return ResponseEntity.ok(AuthResponse(token = token, user = user))
     } else {
         throw UsernameNotFoundException("Invalid credentials")
